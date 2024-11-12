@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @keyframes roll {
+            to {
+                transform: rotateX(360deg) rotateY(360deg);
+            }
+        }
+
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 100px;
+            width: 100%;
+            height: 100vh;
+            background-color: #644745;
+            display: flex;
+            flex-direction: column;
+            justify-content:center;
+            align-items: center;
+        }
+
+        h1{
+            color: #fff0dc;
+        }
+
+        .all-box {
+            display: flex;
+        }
+
+        .dice-box {
+            width: 950px;
+            height: 80%;
+            border: 2px solid #fff0dc;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .result {
+            width: 150px;
+            height: 100%;
+            border-left: 2px solid #fff0dc;
+            padding: 5px;
+            color:#6d8392;
+            font-weight: bold;
+            overflow-y: scroll;
+        }
+
+        button {
+            margin-top: 20px;
+            margin-right: 20px;
+            background-color: #819bae;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            color:#fff0dc;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #6d8392;
+        }
+
+        .dice1,
+        .dice2,
+        .dice3 {
+            /* background-color: aquamarine; */
+            width: calc((100% - 190px) / 3);
+            height: 100%;
+            transform-style: preserve-3d;
+            transform: rotateX(-20deg) rotateY(20deg);
+            position: relative;
+            animation: roll 1s linear 0s infinite;
+        }
+
+        .dice1 {
+            margin-left: 10px;
+        }
+
+        .square {
+            background-color: #fff0dc;
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            left: calc(50% - 50px);
+            top: calc(50% - 50px);
+            border: 1px solid #819bae;
+            opacity: 0.7;
+            text-align: center;
+            line-height: 100px;
+            font-size: 32px;
+            font-weight: bold;
+            color: #819bae;
+        }
+
+        .square1 {
+            /* background-color: blue; */
+            transform: rotateY(0deg) translateZ(50px);
+            z-index: 6;
+        }
+
+        .square2 {
+            /* background-color: chocolate; */
+            transform: rotateY(90deg) translateZ(50px);
+            z-index: 5;
+        }
+
+        .square3 {
+            /* background-color: cadetblue; */
+            transform: rotateY(180deg) translateZ(50px);
+            z-index: 4;
+        }
+
+        .square4 {
+            /* background-color: brown; */
+            transform: rotateY(-90deg) translateZ(50px);
+            z-index: 3;
+        }
+
+        .square5 {
+            /* background-color: gold; */
+            transform: rotateX(-90deg) translateZ(50px);
+            z-index: 2;
+        }
+
+        .square6 {
+            /* background-color: #644745; */
+            transform: rotateX(90deg) translateZ(50px);
+            z-index: 1;
+        }
+
+        .stop {
+            animation: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>DICE</h1>
+    <div class="dice-box">
+        <div class="dice1">
+            <div class="square square1 one"></div>
+            <div class="square square2 two"></div>
+            <div class="square square3 three"></div>
+            <div class="square square4 four"></div>
+            <div class="square square5 five"></div>
+            <div class="square square6 six"></div>
+        </div>
+        <div class="dice2">
+            <div class="square square1 one"></div>
+            <div class="square square2 tow"></div>
+            <div class="square square3 three"></div>
+            <div class="square square4 four"></div>
+            <div class="square square5 five"></div>
+            <div class="square square6 six"></div>
+        </div>
+        <div class="dice3">
+            <div class="square square1 one"></div>
+            <div class="square square2 two"></div>
+            <div class="square square3 three"></div>
+            <div class="square square4 four"></div>
+            <div class="square square5 five"></div>
+            <div class="square square6 six"></div>
+        </div>
+        <div class="result"></div>
+    </div>
+    <div class="btn-box">
+        <button type="button" class="play">PLAY!</button>
+        <button type="button" class="restart">RESTART!</button>
+    </div>
+    <script>
+        const dice1 = document.querySelector('.dice1');
+        const dice2 = document.querySelector('.dice2');
+        const dice3 = document.querySelector('.dice3');
+        const result = document.querySelector('.result');
+        const playBtn = document.querySelector('.play');
+        const resetBtn = document.querySelector('.restart');
+        const s1 = document.querySelector('.dice1 .square1');
+        const s2 = document.querySelector('.dice2 .square1');
+        const s3 = document.querySelector('.dice3 .square1');
+        //querySelector
+        let count = 0;
+        let dice1Num;
+        let dice2Num;
+        let dice3Num;
+        result.innerHTML = '';
+
+        playBtn.addEventListener('click', () => {
+            count = 0;
+            result.innerHTML = '';
+
+            //執行一次(用do..while..)
+            do {
+                //擲骰子
+                dice1Num = Math.floor(Math.random() * 6) + 1;
+                dice2Num = Math.floor(Math.random() * 6) + 1;
+                dice3Num = Math.floor(Math.random() * 6) + 1;
+
+                s1.textContent = dice1Num;
+                s2.textContent = dice2Num;
+                s3.textContent = dice3Num;
+
+                result.innerHTML += `第${count + 1}次:&nbsp${dice1Num},${dice2Num},${dice3Num}<br>`;
+
+                count++;
+
+                if (dice1Num === dice2Num && dice2Num === dice3Num) {
+                    dice1.classList.add('stop');
+                    dice2.classList.add('stop');
+                    dice3.classList.add('stop');
+                    break;//當數值相等時停止迴圈
+                };
+            } while (!(dice1Num === dice2Num && dice2Num === dice3Num));
+            //!如果沒有符合(三顆相等) 就執行 {}
+        });
+
+        resetBtn.addEventListener('click', () => {
+            dice1.classList.remove('stop');
+            dice2.classList.remove('stop');
+            dice3.classList.remove('stop');
+            count = 0;
+            result.innerHTML = '';
+            s1.textContent = '';
+            s2.textContent = '';
+            s3.textContent = '';
+        });
+
+    </script>
+</body>
+
+</html>
+<!-- 擲三顆骰子
+直到三顆骰子相等
+將結果顯示出來 -->
